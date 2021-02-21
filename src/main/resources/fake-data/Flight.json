@@ -1,0 +1,37 @@
+[
+  {
+    "flightId": 0,
+    "flightNumber": 3712,
+    "departureAirportIATACode": "YYZ",
+    "arrivalAirportIATACode": "PPX",
+    "departureDate": "2018-11-02T04:19:13 -01:00"
+  },
+  {
+    "flightId": 1,
+    "flightNumber": 7065,
+    "departureAirportIATACode": "YYZ",
+    "arrivalAirportIATACode": "PPX",
+    "departureDate": "2019-01-08T08:30:46 -01:00"
+  },
+  {
+    "flightId": 2,
+    "flightNumber": 4223,
+    "departureAirportIATACode": "LAX",
+    "arrivalAirportIATACode": "GDN",
+    "departureDate": "2017-05-14T03:25:38 -02:00"
+  },
+  {
+    "flightId": 3,
+    "flightNumber": 3749,
+    "departureAirportIATACode": "YYZ",
+    "arrivalAirportIATACode": "KRK",
+    "departureDate": "2016-11-22T04:13:05 -01:00"
+  },
+  {
+    "flightId": 4,
+    "flightNumber": 6992,
+    "departureAirportIATACode": "SEA",
+    "arrivalAirportIATACode": "LEW",
+    "departureDate": "2018-08-19T07:16:05 -02:00"
+  }
+]
