@@ -1,0 +1,57 @@
+[
+  {
+    "flightId": 2021,
+    "baggage": [
+      {
+        "id": 1,
+        "weight": 1,
+        "weightUnit": "kg",
+        "pieces": 1
+      },
+      {
+        "id": 2,
+        "weight": 2,
+        "weightUnit": "lb",
+        "pieces": 2
+      },
+      {
+        "id": 3,
+        "weight": 3,
+        "weightUnit": "kg",
+        "pieces": 3
+      },
+      {
+        "id": 4,
+        "weight": 4,
+        "weightUnit": "lb",
+        "pieces": 4
+      }
+    ],
+    "cargo": [
+      {
+        "id": 1,
+        "weight": 1,
+        "weightUnit": "kg",
+        "pieces": 1
+      },
+      {
+        "id": 2,
+        "weight": 2,
+        "weightUnit": "lb",
+        "pieces": 2
+      },
+      {
+        "id": 3,
+        "weight": 3,
+        "weightUnit": "kg",
+        "pieces": 3
+      },
+      {
+        "id": 4,
+        "weight": 4,
+        "weightUnit": "lb",
+        "pieces": 4
+      }
+    ]
+  }
+]

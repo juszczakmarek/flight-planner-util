@@ -1,1 +1,8 @@
-
+flight-planner:
+  resource:
+    auto-load-enabled: true
+    root: classpath
+    path: ${flight-planner.resource.root}:data/
+    file-name-mapping:
+      flight: Flight.json
+      cargo: Cargo.json
