@@ -1,0 +1,9 @@
+[
+  {
+    "flightId": 2021,
+    "flightNumber": 20210402,
+    "departureAirportIATACode": "YYZ",
+    "arrivalAirportIATACode": "PPX",
+    "departureDate": "2018-11-02T04:19:13 -01:00"
+  }
+]
