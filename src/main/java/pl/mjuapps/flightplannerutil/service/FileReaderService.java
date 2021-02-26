@@ -24,6 +24,12 @@ public class FileReaderService<T> implements BiFunction<String, Class<T>, List<T
     private final ResourceLoader resourceLoader;
     private final ResourceFunction<T> resourceFunction;
 
+    /**
+     * Reads file from given path and returns list of objects of given type
+     * @param resourcePath path to file
+     * @param typeReference referenced types of objects
+     * @return list of objects with given type
+     */
     @SneakyThrows
     @Override
     public List<T> apply(String resourcePath, Class<T> typeReference) {

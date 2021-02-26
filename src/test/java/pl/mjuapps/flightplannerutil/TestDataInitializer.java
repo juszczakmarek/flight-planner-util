@@ -4,6 +4,7 @@ import pl.mjuapps.flightplannerutil.domain.Cargo;
 import pl.mjuapps.flightplannerutil.domain.Flight;
 import pl.mjuapps.flightplannerutil.domain.Load;
 import pl.mjuapps.flightplannerutil.domain.Track;
+import pl.mjuapps.flightplannerutil.web.model.FlightWeightDto;
 import systems.uom.common.USCustomary;
 import tech.units.indriya.quantity.Quantities;
 import tech.units.indriya.unit.Units;
@@ -17,22 +18,42 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static pl.mjuapps.flightplannerutil.utils.DateTimeFunctions.DATE_TIME_WITH_ZONE_PATTERN;
+
 public class TestDataInitializer {
 
     public static final List<Unit<Mass>> DEFAULT_UNITS = Arrays.asList(Units.KILOGRAM, USCustomary.POUND, Units.KILOGRAM, USCustomary.POUND);
     public static final Integer DEFAULT_WEIGHT_VALUE = 10;
-    public static final Quantity<Mass> DEFAULT_KILOGRAMS_WEIGHT = Quantities.getQuantity(DEFAULT_WEIGHT_VALUE, Units.KILOGRAM);
-    public static final Quantity<Mass> DEFAULT_POUNDS_WEIGHT = Quantities.getQuantity(DEFAULT_WEIGHT_VALUE, USCustomary.POUND);
+    public static final Quantity<Mass> TEN_KILOGRAMS_QUANTITY = Quantities.getQuantity(DEFAULT_WEIGHT_VALUE, Units.KILOGRAM);
+    public static final Quantity<Mass> TEN_POUNDS_QUANTITY = Quantities.getQuantity(DEFAULT_WEIGHT_VALUE, USCustomary.POUND);
+    public static final Double ONE_KG_TO_POUNDS = 2.204622621848775807229738013450270;
+    public static final Double ONE_POUND_TO_KGS = 0.45359237;
     public static final List<Load> TYPICAL_LOADS = typicalLoads();
     public static final String DUMMY = "dummy";
     public static final String DEFAULT_DEPARTURE_AIRPORT = "YYZ";
     public static final String DEFAULT_ARRIVAL_AIRPORT = "PPX";
-    public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss ZZZZZ";
-    public static final String DEFAULT_DEPARTURE_DATE_STRING = "2018-11-02T04:19:13 -01:00";
-    public static final Instant DEFAULT_DEPARTURE_DATE_INSTANT = Instant.from(DateTimeFormatter.ofPattern(DATE_PATTERN).parse(DEFAULT_DEPARTURE_DATE_STRING));
+    public static final String DEFAULT_DEPARTURE_DATE_STRING = "2018-11-02";
+    public static final String DEFAULT_DEPARTURE_ZONED_DATETIME_STRING = "2018-11-02T04:19:13 -01:00";
+    public static final Instant DEFAULT_DEPARTURE_DATE_INSTANT = Instant
+            .from(DateTimeFormatter.ofPattern(DATE_TIME_WITH_ZONE_PATTERN)
+                    .parse(DEFAULT_DEPARTURE_ZONED_DATETIME_STRING));
 
     public static final Integer DEFAULT_ID = 2021;
     public static final Integer DEFAULT_IDENTIFIER = 20210402;
+
+    public static final FlightWeightDto typicalFlightWeightDtoKg() {
+        Double weight = 6 * ONE_POUND_TO_KGS + 4; //this values matches the one from sample json files
+        return FlightWeightDto.builder()
+                .baggageTotalWeight(weight)
+                .cargoTotalWeight(weight)
+                .totalWeight(weight *2)
+                .unit(Units.KILOGRAM.toString())
+                .build();
+    }
+
+    public static List<Quantity<Mass>> typicalQuantities() {
+        return new ArrayList<>(Arrays.asList(TEN_KILOGRAMS_QUANTITY));
+    }
 
     public static List<Flight> typicalFlights() {
         return Arrays.asList(typicalFlight());

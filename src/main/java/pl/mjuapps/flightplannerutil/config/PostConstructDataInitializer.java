@@ -14,8 +14,8 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
- * This service is responsible for reading data from json files and setting bi-directional relations between
- * {@link Flight}s and {@link Cargo}s
+ * This service is a kind of facade responsible for reading data from json files
+ * and setting bi-directional relations between {@link Flight}s and {@link Cargo}s
  */
 @Service
 @RequiredArgsConstructor
@@ -28,6 +28,9 @@ public class PostConstructDataInitializer {
     private final FlightPlannerResourceProperties flightPlannerResourceProperties;
     private final DataProvider dataProvider;
 
+    /**
+     * Conditionally initialize data once spring constructs this bean
+     */
     @PostConstruct
     public void data() {
         if (flightPlannerResourceProperties.autoLoadEnabled()) {

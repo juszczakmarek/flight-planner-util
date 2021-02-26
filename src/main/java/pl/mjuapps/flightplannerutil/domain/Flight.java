@@ -8,6 +8,8 @@ import lombok.Data;
 
 import java.time.Instant;
 
+import static pl.mjuapps.flightplannerutil.utils.DateTimeFunctions.DATE_TIME_WITH_ZONE_PATTERN;
+
 /**
  * Representation of flight from json
  */
@@ -23,7 +25,7 @@ public class Flight {
     @JsonUnwrapped
     private Track track;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss ZZZZZ")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_WITH_ZONE_PATTERN)
     private Instant departureDate;
 
     @JsonIgnore

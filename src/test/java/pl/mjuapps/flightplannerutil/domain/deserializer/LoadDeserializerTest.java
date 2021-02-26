@@ -12,8 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static pl.mjuapps.flightplannerutil.TestDataInitializer.DUMMY;
 import static pl.mjuapps.flightplannerutil.TestDataInitializer.createLoad;
-import static pl.mjuapps.flightplannerutil.utils.QuantityFunctions.ALLOWED_UNITS;
-import static pl.mjuapps.flightplannerutil.utils.QuantityFunctions.UNIT_NOT_ALLOWED_MSG;
+import static pl.mjuapps.flightplannerutil.utils.MassUnitFunctions.ALLOWED_UNITS;
+import static pl.mjuapps.flightplannerutil.utils.MassUnitFunctions.UNIT_NOT_ALLOWED_MSG;
 
 @SpringBootTest
 @TestPropertySource(properties = "flight-planner.resource.auto-load-enabled=false")

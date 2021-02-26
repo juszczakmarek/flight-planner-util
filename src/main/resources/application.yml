@@ -1,3 +1,7 @@
+server:
+  error:
+    include-message: always
+
 flight-planner:
   resource:
     auto-load-enabled: true

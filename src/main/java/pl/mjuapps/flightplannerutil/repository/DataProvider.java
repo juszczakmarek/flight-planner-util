@@ -29,6 +29,11 @@ public final class DataProvider {
     private List<Flight> flights;
     private List<Cargo> cargos;
 
+    /**
+     * Initializer for test data
+     * @param flights flights
+     * @param cargos cargos
+     */
     public void initializeTestData(@NonNull List<Flight> flights, @NonNull List<Cargo> cargos) {
         if (flightPlannerResourceProperties.getAutoLoadEnabled()) {
             initialize(flights, cargos);
@@ -45,6 +50,10 @@ public final class DataProvider {
         }
     }
 
+    /**
+     * Modified getter for {@link DataProvider}.{@link Flight}s.
+     * @return list of {@link Flight}s or empty list if data where not initialized yet
+     */
     public List<Flight> flights() {
         if (flights == null) {
             return getFallback("flights");
@@ -52,6 +61,10 @@ public final class DataProvider {
         return flights;
     }
 
+    /**
+     * Modified getter for {@link DataProvider}.{@link Cargo}s.
+     * @return list of {@link Cargo}s or empty list if data where not initialized yet
+     */
     public List<Cargo> cargos() {
         if (cargos == null) {
             return getFallback("cargos");

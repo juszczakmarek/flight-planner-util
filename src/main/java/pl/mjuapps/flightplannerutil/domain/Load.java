@@ -8,7 +8,7 @@ import javax.measure.Quantity;
 import javax.measure.quantity.Mass;
 
 /**
- * Representation of load. It can be considered for both: {@link Cargo#getBaggage()} and {@link Cargo#getCargo()}
+ * Representation of load. It can be considered for both: {@link Cargo}.baggage and {@link Cargo}.cargo
  */
 @Data
 @JsonDeserialize(using = LoadDeserializer.class)

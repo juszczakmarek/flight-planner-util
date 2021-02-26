@@ -3,6 +3,8 @@ package pl.mjuapps.flightplannerutil.config;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import pl.mjuapps.flightplannerutil.domain.Cargo;
+import pl.mjuapps.flightplannerutil.domain.Flight;
 
 import java.util.Map;
 
@@ -22,12 +24,24 @@ public class FlightPlannerResourceProperties {
     private Map<String, String> fileNameMapping;
     private Boolean autoLoadEnabled;
 
+    /**
+     * Modified getter for retrieving path to file with {@link Flight} resources
+     * @return path to {@link Flight} resources
+     */
     public String getFlightResourcePath() { return path + fileNameMapping.get(FLIGHT_RESOURCE_NAME); }
 
+    /**
+     * Modified getter for retrieving path to file with {@link Cargo} resources
+     * @return path to {@link Cargo} resources
+     */
     public String getCargoResourcePath() {
         return path + fileNameMapping.get(CARGO_RESOURCE_NAME);
     }
 
+    /**
+     * Flag for enabling data autoload by {@link PostConstructDataInitializer}
+     * @return boolean for enabling data autoload
+     */
     public Boolean autoLoadEnabled() { return autoLoadEnabled; }
 
 }
