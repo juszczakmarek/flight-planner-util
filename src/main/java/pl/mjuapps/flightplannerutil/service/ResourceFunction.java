@@ -22,6 +22,12 @@ public class ResourceFunction<T> implements BiFunction<Resource, Class<T>, List<
 
     private final ObjectMapper objectMapper;
 
+    /**
+     * Returns list of object with the referenced type
+     * @param resource resource with data
+     * @param typeReference type of data
+     * @return list of data of referenced type
+     */
     @SneakyThrows
     @Override
     public List<T> apply(Resource resource, Class<T> typeReference) {

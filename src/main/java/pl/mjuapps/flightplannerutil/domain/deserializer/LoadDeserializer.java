@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import pl.mjuapps.flightplannerutil.domain.Load;
+import pl.mjuapps.flightplannerutil.utils.MassUnitFunctions;
 import pl.mjuapps.flightplannerutil.utils.QuantityFunctions;
 
 import javax.measure.Quantity;
@@ -15,6 +16,8 @@ import java.io.IOException;
 /**
  * Custom deserializer for {@link Load}. Main goal for using this deserializer is
  * proper deserialization of weight
+ *
+ * throws {@link IllegalArgumentException} if unit is not allowed. Allowed units are {@link MassUnitFunctions#ALLOWED_UNITS}
  */
 public class LoadDeserializer extends JsonDeserializer<Load> {
 
