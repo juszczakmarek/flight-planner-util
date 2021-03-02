@@ -1,6 +1,6 @@
 # Flight planner util - demo app
 
-This is a demo app created for fully domenstrative purpose. More detailed desciption will be provided later. As for now, it is enough to say what are the requirements:
+This is a demo app created for fully domenstrative purpose. Requirements:
 
 > Your task is to implement application with two functionalities:
 >
