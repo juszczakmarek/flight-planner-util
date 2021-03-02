@@ -1,9 +1,11 @@
 package pl.mjuapps.flightplannerutil;
 
+import pl.mjuapps.flightplannerutil.config.FlightPlannerResourceProperties;
 import pl.mjuapps.flightplannerutil.domain.Cargo;
 import pl.mjuapps.flightplannerutil.domain.Flight;
 import pl.mjuapps.flightplannerutil.domain.Load;
 import pl.mjuapps.flightplannerutil.domain.Track;
+import pl.mjuapps.flightplannerutil.repository.DataProvider;
 import pl.mjuapps.flightplannerutil.web.model.FlightWeightDto;
 import systems.uom.common.USCustomary;
 import tech.units.indriya.quantity.Quantities;
@@ -18,14 +20,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static pl.mjuapps.flightplannerutil.utils.DateTimeFunctions.DATE_TIME_WITH_ZONE_PATTERN;
+import static org.mockito.Mockito.when;
+import static pl.mjuapps.flightplannerutil.utils.DateTimePredicates.DATE_TIME_WITH_ZONE_PATTERN;
 
 public class TestDataInitializer {
 
     public static final List<Unit<Mass>> DEFAULT_UNITS = Arrays.asList(Units.KILOGRAM, USCustomary.POUND, Units.KILOGRAM, USCustomary.POUND);
-    public static final Integer DEFAULT_WEIGHT_VALUE = 10;
-    public static final Quantity<Mass> TEN_KILOGRAMS_QUANTITY = Quantities.getQuantity(DEFAULT_WEIGHT_VALUE, Units.KILOGRAM);
-    public static final Quantity<Mass> TEN_POUNDS_QUANTITY = Quantities.getQuantity(DEFAULT_WEIGHT_VALUE, USCustomary.POUND);
+    public static final Integer DEFAULT_VALUE = 10;
+    public static final Quantity<Mass> TEN_KILOGRAMS_QUANTITY = Quantities.getQuantity(DEFAULT_VALUE, Units.KILOGRAM);
+    public static final Quantity<Mass> TEN_POUNDS_QUANTITY = Quantities.getQuantity(DEFAULT_VALUE, USCustomary.POUND);
     public static final Double ONE_KG_TO_POUNDS = 2.204622621848775807229738013450270;
     public static final Double ONE_POUND_TO_KGS = 0.45359237;
     public static final List<Load> TYPICAL_LOADS = typicalLoads();
@@ -109,6 +112,28 @@ public class TestDataInitializer {
         return loads;
     }
 
+    public static void setUpMockedFlights(DataProvider dataProvider, FlightPlannerResourceProperties mockedProperties) {
+        when(mockedProperties.getAutoLoadEnabled()).thenReturn(true);
+        initializeTwoTypicalFlights(dataProvider);
+    }
+
+    public static void initializeTwoTypicalFlights(DataProvider dataProvider) {
+        Flight flight = typicalFlight();
+        Cargo flightCargo = typicalCargo(false, flight);
+        flight.setCargo(flightCargo);
+        Flight reversedTrackFlight = typicalFlight();
+        reversedTrackFlight.setTrack(createReversedTrack(flight.getTrack()));
+        Cargo reversedFlightCargo = typicalCargo(false, reversedTrackFlight);
+        reversedTrackFlight.setCargo(reversedFlightCargo);
+        dataProvider.initializeTestData(Arrays.asList(flight, reversedTrackFlight), Arrays.asList(flightCargo, reversedFlightCargo));
+    }
+
+    public static Track createReversedTrack(Track track) {
+        Track reversedTrack = new Track();
+        reversedTrack.setDepartureAirport(track.getArrivalAirport());
+        reversedTrack.setArrivalAirport(track.getDepartureAirport());
+        return reversedTrack;
+    }
 
 
 

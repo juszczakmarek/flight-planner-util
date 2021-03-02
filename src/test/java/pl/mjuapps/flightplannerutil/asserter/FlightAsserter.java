@@ -3,6 +3,9 @@ package pl.mjuapps.flightplannerutil.asserter;
 import pl.mjuapps.flightplannerutil.domain.Flight;
 import pl.mjuapps.flightplannerutil.domain.Track;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.mjuapps.flightplannerutil.TestDataInitializer.DEFAULT_ARRIVAL_AIRPORT;
 import static pl.mjuapps.flightplannerutil.TestDataInitializer.DEFAULT_DEPARTURE_AIRPORT;
@@ -12,6 +15,12 @@ import static pl.mjuapps.flightplannerutil.TestDataInitializer.DEFAULT_IDENTIFIE
 import static pl.mjuapps.flightplannerutil.asserter.CargoAsserter.assertCargo;
 
 public class FlightAsserter {
+
+    public static void assertTypicalFlights(List<Flight> flights) {
+        assertThat(flights)
+                .hasSize(1)
+                .allSatisfy(flight -> assertFlightWithNestedFields(flight));
+    }
 
     public static void assertFlightWithNestedFields(Flight flight) {
         assertFlightBasic(flight);

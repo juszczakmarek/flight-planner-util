@@ -16,11 +16,9 @@ import pl.mjuapps.flightplannerutil.web.service.FlightWeightApiService;
 import javax.measure.Quantity;
 import javax.measure.Unit;
 import javax.measure.quantity.Mass;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 
+import static pl.mjuapps.flightplannerutil.utils.DateTimeFunctions.PARSE_TO_START_OF_DAY_UTC;
 import static pl.mjuapps.flightplannerutil.utils.MassUnitFunctions.ALLOWED_UNIT_CONSUMER;
 import static pl.mjuapps.flightplannerutil.utils.MassUnitFunctions.MASS_UNIT_FUNCTION;
 
@@ -38,9 +36,8 @@ public class FlightWeightApiServiceImpl implements FlightWeightApiService {
     @Override
     public FlightWeightDto weightDto(Integer identifier, String dateString, String unitSymbol) {
         ALLOWED_UNIT_CONSUMER.accept(unitSymbol);
-        Instant instant = LocalDate.parse(dateString).atStartOfDay(ZoneId.of("UTC")).toInstant();
         Unit<Mass> unit = MASS_UNIT_FUNCTION.apply(unitSymbol);
-        List<Flight> flights = flightRepository.findAllByIdentifierAndDepartureDate(identifier, instant);
+        List<Flight> flights = flightRepository.findAllByIdentifierAndDepartureDate(identifier, PARSE_TO_START_OF_DAY_UTC.apply(dateString));
         if (flights.isEmpty()) {
             throwResponseStatusExceptionNotFound(identifier, dateString);
         }

@@ -8,7 +8,7 @@ import lombok.Data;
 
 import java.time.Instant;
 
-import static pl.mjuapps.flightplannerutil.utils.DateTimeFunctions.DATE_TIME_WITH_ZONE_PATTERN;
+import static pl.mjuapps.flightplannerutil.utils.DateTimePredicates.DATE_TIME_WITH_ZONE_PATTERN;
 
 /**
  * Representation of flight from json
@@ -35,6 +35,24 @@ public class Flight {
         this.cargo = cargo;
         cargo.setFlight(this);
         return this;
+    }
+
+    /**
+     * Modified getter for retrieving departing airport
+     * @return airport IATA code
+     */
+    @JsonIgnore
+    public String getDepartingAirport() {
+        return track.getDepartureAirport();
+    }
+
+    /**
+     * Modified getter for retrieving arrival airport
+     * @return airport IATA code
+     */
+    @JsonIgnore
+    public String getArrivalAirport() {
+        return track.getArrivalAirport();
     }
 
     @Override public String toString() {
