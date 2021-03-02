@@ -1,0 +1,14 @@
+server:
+  error:
+    include-message: always
+
+flight-planner:
+  swagger:
+    enabled: true
+  resource:
+    auto-load-enabled: true
+    root: classpath
+    path: ${flight-planner.resource.root}:data/
+    file-name-mapping:
+      flight: Flight.json
+      cargo: Cargo.json
