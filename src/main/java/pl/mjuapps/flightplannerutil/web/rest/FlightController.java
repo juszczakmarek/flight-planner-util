@@ -1,6 +1,6 @@
 package pl.mjuapps.flightplannerutil.web.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mjuapps.flightplannerutil.domain.Flight;
 import pl.mjuapps.flightplannerutil.utils.MassUnitFunctions;
+import pl.mjuapps.flightplannerutil.utils.TimeZoneCodeValidator;
 import pl.mjuapps.flightplannerutil.web.model.FlightWeightDto;
 import pl.mjuapps.flightplannerutil.web.service.impl.FlightWeightApiServiceImpl;
 
@@ -18,10 +19,11 @@ import pl.mjuapps.flightplannerutil.web.service.impl.FlightWeightApiServiceImpl;
  */
 @RestController
 @RequestMapping("/api/flights")
+@RequiredArgsConstructor
 public class FlightController {
 
-    @Autowired
-    private FlightWeightApiServiceImpl flightApiService;
+    private final FlightWeightApiServiceImpl flightApiService;
+    private final TimeZoneCodeValidator timeZoneCodeValidator;
 
     /**
      * Respond with {@link FlightWeightDto} representing calculated weight for given flight number and given UTC date.
@@ -34,7 +36,9 @@ public class FlightController {
      */
     @GetMapping("/{flightNumber}/weight")
     public ResponseEntity<FlightWeightDto> getFlightWeightForNumberAndUtcDate(@PathVariable Integer flightNumber,
-               @RequestParam String date, @RequestHeader("Accept-Measure-Unit") String unit) {
+               @RequestParam String date, @RequestHeader("Accept-Measure-Unit") String unit,
+               @RequestHeader("Accept-Time-Zone") String timeZone) {
+        timeZoneCodeValidator.accept(timeZone); //todo Validated instead of explicit call
         return ResponseEntity.ok(flightApiService.weightDto(flightNumber, date, unit));
     }
 
