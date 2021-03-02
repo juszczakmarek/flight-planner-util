@@ -9,9 +9,9 @@
   {
     "flightId": 1,
     "flightNumber": 7065,
-    "departureAirportIATACode": "YYZ",
-    "arrivalAirportIATACode": "PPX",
-    "departureDate": "2019-01-08T08:30:46 -01:00"
+    "departureAirportIATACode": "PPX",
+    "arrivalAirportIATACode": "YYZ",
+    "departureDate": "2018-11-02T20:19:13 -01:00"
   },
   {
     "flightId": 2,

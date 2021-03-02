@@ -12,7 +12,7 @@ import javax.measure.quantity.Mass;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static pl.mjuapps.flightplannerutil.TestDataInitializer.DEFAULT_WEIGHT_VALUE;
+import static pl.mjuapps.flightplannerutil.TestDataInitializer.DEFAULT_VALUE;
 import static pl.mjuapps.flightplannerutil.TestDataInitializer.ONE_KG_TO_POUNDS;
 import static pl.mjuapps.flightplannerutil.TestDataInitializer.TEN_KILOGRAMS_QUANTITY;
 
@@ -31,7 +31,7 @@ class MassUnitConvertingFunctionTest {
     @Test
     void apply_Should_ReturnPounds_When_ConvertingKilogramsToPounds() {
         Quantity<Mass> quantity = massUnitConvertingFunction.apply(TEN_KILOGRAMS_QUANTITY, USCustomary.POUND);
-        assertQuantity(quantity, ONE_KG_TO_POUNDS * DEFAULT_WEIGHT_VALUE, USCustomary.POUND);
+        assertQuantity(quantity, ONE_KG_TO_POUNDS * DEFAULT_VALUE, USCustomary.POUND);
     }
 
     public static void assertQuantity(Quantity<Mass> actual, Double value, Unit unit) {
