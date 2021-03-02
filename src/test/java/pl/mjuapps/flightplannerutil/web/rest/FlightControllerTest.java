@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import pl.mjuapps.flightplannerutil.utils.TimeZoneCodeValidator;
 import pl.mjuapps.flightplannerutil.web.model.FlightWeightDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,6 +23,7 @@ import static pl.mjuapps.flightplannerutil.TestDataInitializer.DUMMY;
 import static pl.mjuapps.flightplannerutil.TestDataInitializer.typicalFlightWeightDtoKg;
 import static pl.mjuapps.flightplannerutil.utils.MassUnitFunctions.ALLOWED_UNITS;
 import static pl.mjuapps.flightplannerutil.utils.MassUnitFunctions.UNIT_NOT_ALLOWED_MSG;
+import static pl.mjuapps.flightplannerutil.utils.TimeZoneCodeValidator.ALLOWED_TIME_ZONE;
 import static pl.mjuapps.flightplannerutil.web.service.impl.FlightWeightApiServiceImpl.FLIGHTS_NOT_FOUND_MSG;
 
 @SpringBootTest
@@ -46,7 +48,8 @@ class FlightControllerTest {
     void should_Return_FlightWeightDto() throws Exception {
         FlightWeightDto typicalFlightWeightDtoKg = typicalFlightWeightDtoKg();
         MockHttpServletRequestBuilder requestBuilder = get(URL, DEFAULT_IDENTIFIER, DEFAULT_DEPARTURE_DATE_STRING)
-                                                       .header("Accept-Measure-Unit", "kg");
+                                                       .header("Accept-Measure-Unit", "kg")
+                                                       .header("Accept-Time-Zone", ALLOWED_TIME_ZONE);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -58,24 +61,47 @@ class FlightControllerTest {
 
     @Test
     void should_Return_BadRequest_When_HeaderAcceptMeasureUnit_IsMissing() throws Exception {
-        mockMvc.perform(get(URL, DEFAULT_IDENTIFIER, DEFAULT_DEPARTURE_DATE_STRING))
+        MockHttpServletRequestBuilder requestBuilder = get(URL, DEFAULT_IDENTIFIER, DEFAULT_DEPARTURE_DATE_STRING)
+                .header("Accept-Time-Zone", ALLOWED_TIME_ZONE);
+        mockMvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason("Missing request header 'Accept-Measure-Unit' for method parameter of type String"));
     }
 
     @Test
+    void should_Return_BadRequest_When_HeaderAcceptTimeZone_IsMissing() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = get(URL, DEFAULT_IDENTIFIER, DEFAULT_DEPARTURE_DATE_STRING)
+                .header("Accept-Measure-Unit", "kg");
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+                .andExpect(status().reason("Missing request header 'Accept-Time-Zone' for method parameter of type String"));
+    }
+
+    @Test
     void should_Return_BadRequest_When_UnitNotAllowed() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get(URL, DEFAULT_IDENTIFIER, DEFAULT_DEPARTURE_DATE_STRING)
-                .header("Accept-Measure-Unit", DUMMY);
+                .header("Accept-Measure-Unit", DUMMY)
+                .header("Accept-Time-Zone", ALLOWED_TIME_ZONE);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value(String.format(UNIT_NOT_ALLOWED_MSG, DUMMY, ALLOWED_UNITS)));
     }
 
     @Test
+    void should_Return_BadRequest_When_TimeZoneAllowed() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = get(URL, DEFAULT_IDENTIFIER, DEFAULT_DEPARTURE_DATE_STRING)
+                .header("Accept-Measure-Unit", "kg")
+                .header("Accept-Time-Zone", DUMMY);
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value(TimeZoneCodeValidator.TIME_ZONE_NOT_ALLOWED));
+    }
+
+    @Test
     void should_Return_NotFound_When_NoFlightFor_Identifier() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get(URL, -1, DEFAULT_DEPARTURE_DATE_STRING)
-                .header("Accept-Measure-Unit", "kg");
+                .header("Accept-Measure-Unit", "kg")
+                .header("Accept-Time-Zone", ALLOWED_TIME_ZONE);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isNotFound())
                 .andExpect(status().reason(String.format(FLIGHTS_NOT_FOUND_MSG, -1, DEFAULT_DEPARTURE_DATE_STRING)));
@@ -84,10 +110,10 @@ class FlightControllerTest {
     @Test
     void should_Return_NotFound_When_NoFlightFor_Date() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get(URL, DEFAULT_IDENTIFIER, "2010-01-01")
-                .header("Accept-Measure-Unit", "kg");
+                .header("Accept-Measure-Unit", "kg")
+                .header("Accept-Time-Zone", ALLOWED_TIME_ZONE);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isNotFound())
                 .andExpect(status().reason(String.format(FLIGHTS_NOT_FOUND_MSG, DEFAULT_IDENTIFIER, "2010-01-01")));
     }
-
 }
